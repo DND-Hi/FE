@@ -1,7 +1,5 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Test1 } from "@/components/test1";
+import { Test2 } from "@/components/test2";
 
 export default function Home() {
   return (
@@ -16,6 +14,8 @@ export default function Home() {
       <p className="bg-primary-80 text-white">팔레트8</p>
       <p className="bg-primary-90 text-white">팔레트9</p>
       <p className="bg-primary text-white">팔레트10</p>
+      <Test1 />
+      <Test2 />
     </div>
   );
 }
