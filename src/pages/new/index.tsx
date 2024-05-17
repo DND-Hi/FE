@@ -1,7 +1,7 @@
+import { eventApis } from "@/apis/event";
 import Form_firstPage from "@/components/New/Form_firstPage";
 import Form_secondPage from "@/components/New/Form_secondPage";
 import Icon_arrowLeft from "@/icons/Icon_arrowLeft";
-import Icon_x from "@/icons/Icon_x";
 import { useRouter } from "next/router";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -42,10 +42,22 @@ const EventNew = () => {
   });
   const { register, setValue, handleSubmit } = formMethods;
 
-  const onSubmit = (data: FestivalFormType) => {
-    
-    
-  }
+  const onSubmit = async (data: FestivalFormType) => {
+    const res = await eventApis.postEvent({
+      title: data.title,
+      description: data.description,
+      host: data.host,
+      longitude: data.longitude,
+      latitude: data.latitude,
+      startAt: data.startAt!,
+      finishAt: data.finishAt!,
+      reservationUrl: data.reservationUrl,
+      cost: data.cost,
+      imageUrl:
+        "https://img.freepik.com/premium-photo/picture-cute-puppy-world-animal-day_944128-5890.jpg",
+    });
+    router.replace(`/`);
+  };
 
   return (
     <main className="w-full h-full bg-white">
@@ -63,7 +75,10 @@ const EventNew = () => {
         </div>
 
         <FormProvider {...formMethods}>
-          <form className="w-full flex flex-col justify-between gap-[16px] py-[30px]" onSubmit={handleSubmit(onSubmit)}>
+          <form
+            className="w-full flex flex-col justify-between gap-[16px] py-[30px]"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             {isFirstPage ? (
               <Form_firstPage
                 isFirstPage={isFirstPage}
