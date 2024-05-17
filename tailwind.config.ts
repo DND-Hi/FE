@@ -100,7 +100,7 @@ const config: Config = {
     },
   },
   extend: {},
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 } satisfies Config;
 
 export default config;
