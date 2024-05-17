@@ -1,4 +1,5 @@
 import Form_firstPage from "@/components/New/Form_firstPage";
+import Form_secondPage from "@/components/New/Form_secondPage";
 import Icon_arrowLeft from "@/icons/Icon_arrowLeft";
 import Icon_x from "@/icons/Icon_x";
 import { useRouter } from "next/router";
@@ -13,6 +14,7 @@ export interface FestivalFormType {
   latitude: 0;
   startAt: Date | null;
   finishAt: Date | null;
+  reservationUrl: string;
   cost: number;
   imageUrl: string;
   imageFile: File | null;
@@ -38,7 +40,12 @@ const EventNew = () => {
       imagePreview: null,
     },
   });
-  const { register, setValue } = formMethods;
+  const { register, setValue, handleSubmit } = formMethods;
+
+  const onSubmit = (data: FestivalFormType) => {
+    
+    
+  }
 
   return (
     <main className="w-full h-full bg-white">
@@ -56,13 +63,23 @@ const EventNew = () => {
         </div>
 
         <FormProvider {...formMethods}>
-          <form className="w-full flex flex-col justify-between gap-[16px] py-[30px]">
+          <form className="w-full flex flex-col justify-between gap-[16px] py-[30px]" onSubmit={handleSubmit(onSubmit)}>
             {isFirstPage ? (
               <Form_firstPage
                 isFirstPage={isFirstPage}
                 onNext={() => setIsFirstPage(false)}
               />
-            ) : null}
+            ) : (
+              <>
+                <Form_secondPage />
+                <button
+                  className="px-[16px] py-[8px] bg-primary rounded-full h-[50px] disabled:bg-darkGray disabled:cursor-not-allowed"
+                  type="submit"
+                >
+                  완료하기
+                </button>
+              </>
+            )}
           </form>
         </FormProvider>
       </section>
