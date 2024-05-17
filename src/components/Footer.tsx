@@ -107,7 +107,7 @@ export default function Footer() {
       <button
         type="button"
         className="absolute end-0 bg-primary w-[60px] h-[60px] flex flex-col gap-[4px] items-center justify-center rounded-full text-white"
-        onClick={() => setIsOpen(true)}
+        onClick={() => route.push("/new")}
       >
         <p className="text-[16px]">+</p>
         <p className="text-[10px]">등록하기</p>

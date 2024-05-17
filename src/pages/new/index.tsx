@@ -1,6 +1,8 @@
 import { eventApis } from "@/apis/event";
+import { formApis } from "@/apis/form";
 import Form_firstPage from "@/components/New/Form_firstPage";
 import Form_secondPage from "@/components/New/Form_secondPage";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import Icon_arrowLeft from "@/icons/Icon_arrowLeft";
 import { useRouter } from "next/router";
 import React from "react";
@@ -10,10 +12,10 @@ export interface FestivalFormType {
   title: string;
   description: string;
   host: string;
-  longitude: 0;
-  latitude: 0;
-  startAt: Date | null;
-  finishAt: Date | null;
+  longitude: number;
+  latitude: number;
+  startAt: Date;
+  finishAt: Date;
   reservationUrl: string;
   cost: number;
   imageUrl: string;
@@ -24,16 +26,17 @@ export interface FestivalFormType {
 const EventNew = () => {
   const [isFirstPage, setIsFirstPage] = React.useState(true);
   const router = useRouter();
+  const { getSessionStorage } = useSessionStorage();
 
   const formMethods = useForm<FestivalFormType>({
     defaultValues: {
       title: "",
       description: "",
-      host: "",
+      host: "host",
       longitude: 0,
       latitude: 0,
-      startAt: null,
-      finishAt: null,
+      startAt: new Date(),
+      finishAt: new Date(),
       cost: 0,
       imageUrl: "",
       imageFile: null,
@@ -43,20 +46,31 @@ const EventNew = () => {
   const { register, setValue, handleSubmit } = formMethods;
 
   const onSubmit = async (data: FestivalFormType) => {
-    const res = await eventApis.postEvent({
-      title: data.title,
-      description: data.description,
-      host: data.host,
-      longitude: data.longitude,
-      latitude: data.latitude,
-      startAt: data.startAt!,
-      finishAt: data.finishAt!,
-      reservationUrl: data.reservationUrl,
-      cost: data.cost,
-      imageUrl:
-        "https://img.freepik.com/premium-photo/picture-cute-puppy-world-animal-day_944128-5890.jpg",
-    });
-    router.replace(`/`);
+    const res = await formApis
+      .postImage({
+        file: data.imageFile!,
+        type: "event",
+      })
+      .then((res) => res.data);
+
+    const imageUrl = res.data.url;
+
+    const result = await eventApis
+      .postEvent({
+        cost: data.cost,
+        description: data.description,
+        host: getSessionStorage("nickname") as string,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        reservationUrl: data.reservationUrl,
+        title: data.title,
+        startAt: new Date(data.startAt),
+        finishAt: new Date(data.startAt),
+        imageUrl,
+      })
+      .then((res) => res.data);
+
+    router.replace("/");
   };
 
   return (

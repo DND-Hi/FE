@@ -1,28 +1,25 @@
-import Icon_calendar from "@/icons/Icon_calendar";
 import Icon_marker from "@/icons/Icon_marker";
 import { FestivalFormType } from "@/pages/new";
-import { register } from "module";
 import Image from "next/image";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import Map_search from "../Map/Map_search";
 
 export default function Form_secondPage() {
-  const { register, getValues, watch } = useFormContext<FestivalFormType>();
+  const { register, getValues, watch, setValue } =
+    useFormContext<FestivalFormType>();
   const [position, setPosition] = useState<{ lng: number; lat: number }>();
   const [isMapOpen, setIsMapOpen] = useState(false);
-
-  console.log(isMapOpen);
 
   return (
     <div className="w-full h-full flex flex-col gap-[30px]">
       <div className="relative w-full h-[260px] bg-primary-10">
-        {/* <Image
+        <Image
           src={watch("imagePreview") as string}
           alt="갱얼쥐"
           fill
           objectFit="contain"
-        /> */}
+        />
 
         <div className="absolute bottom-[12px] text-white text-[24px] mx-[16px] bg-black/20 rounded-[10px] p-[12px]">
           <p>{getValues("title")}</p>
@@ -34,6 +31,7 @@ export default function Form_secondPage() {
           <input
             type="date"
             className="w-full p-[16px] ring-0 outline-none border border-darkGray rounded-[10px]"
+            {...register("startAt")}
           />
         </article>
       </div>
@@ -74,6 +72,8 @@ export default function Form_secondPage() {
         isOpen={isMapOpen}
         onConfirm={(lng, lat) => {
           setPosition({ lng: lng as number, lat: lat as number });
+          setValue("longitude", lng as number);
+          setValue("latitude", lat as number);
           setIsMapOpen(false);
         }}
         onClose={() => setIsMapOpen(false)}

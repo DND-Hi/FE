@@ -49,11 +49,19 @@ export default {
     const accessToken = tokenService.getAccessToken();
     const refreshToken = tokenService.getRefreshToken();
 
+    // Check if data is an instance of FormData
+    const headers: any = {
+      authorization: `Bearer ${accessToken}`,
+      refreshToken,
+    };
+
+    // If data is FormData, let the browser set the correct Content-Type
+    if (!(data instanceof FormData)) {
+      headers["Content-Type"] = "application/json"; // or any other default Content-Type
+    }
+
     return await axios.post(settings.baseUrl + url, data, {
-      headers: {
-        authorization: `Bearer ${accessToken}`,
-        refreshToken,
-      },
+      headers: headers,
     });
   },
 
