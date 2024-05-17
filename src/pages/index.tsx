@@ -1,11 +1,11 @@
 import Keyword from "@/components/Map/Map_keyword";
+import { TKeyword } from "@/store/keywordStore";
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
-import { TKeyword } from "@/store/keywordStore";
 
+import Footer from "@/components/Footer";
 import Map_detailOverlay from "@/components/Map/Map_detailOverlay";
 import Map_ongoing from "@/components/Map/Map_ongoing";
-import Footer from "@/components/Footer";
 import useKeywordStore from "@/store/keywordStore";
 
 const Home = () => {
@@ -36,8 +36,8 @@ const Home = () => {
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setState((prev) => ({
+        position => {
+          setState(prev => ({
             ...prev,
             center: {
               lat: position.coords.latitude, // 위도
@@ -46,8 +46,8 @@ const Home = () => {
             isLoading: false,
           }));
         },
-        (err) => {
-          setState((prev) => ({
+        err => {
+          setState(prev => ({
             ...prev,
             errMsg: err.message,
             isLoading: false,
@@ -56,7 +56,7 @@ const Home = () => {
       );
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-      setState((prev) => ({
+      setState(prev => ({
         ...prev,
         errMsg: "geolocation을 사용할수 없어요..",
         isLoading: false,
@@ -72,7 +72,7 @@ const Home = () => {
           placeholder="참여하고싶은 축제를 키워드로 검색해보세요."
         />
         <div className="w-auto flex gap-[12px]">
-          {keywords.map((keyword) => (
+          {keywords.map(keyword => (
             <Keyword
               key={keyword.id}
               text={keyword.name}
