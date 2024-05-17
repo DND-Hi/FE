@@ -15,8 +15,8 @@ export default function CheckToken() {
     try {
       const response = await kakaoToken.postKakaoCode({ code: code as string });
       if (response) {
-        setSessionStorage("access", response.data.accessToken);
-        setCookie("refresh", response.data.refreshToken);
+        setSessionStorage("access", response.data.data.accessToken);
+        setCookie("refresh", response.data.data.refreshToken);
         router.push("/");
         return;
       }
