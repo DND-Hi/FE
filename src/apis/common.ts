@@ -14,12 +14,31 @@ export default {
       return await axios.get(settings.baseUrl + url, {
         params,
         headers: {
-          authorization: accessToken,
+          authorization: `Bearer ${accessToken}`,
           refreshToken,
         },
       });
     } else {
       return await axios.get(settings.baseUrl + url, { params });
+    }
+  },
+
+  getWithAuthParams: async (url: string, params?: any) => {
+    const accessToken = params.accessToken;
+    const refreshToken = params.refreshToken;
+
+    console.log("accessToken", accessToken);
+    console.log("refreshToken", refreshToken);
+
+    if (accessToken && refreshToken) {
+      return await axios.get(settings.baseUrl + url, {
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+          refreshToken,
+        },
+      });
+    } else {
+      return await axios.get(settings.baseUrl + url);
     }
   },
 

@@ -1,4 +1,4 @@
-import { kakaoToken } from "@/apis/kakaoToken";
+import { kakaoTokenApis } from "@/apis/kakaoToken";
 import { useCookies } from "@/hooks/useCookies";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { useRouter } from "next/router";
@@ -13,9 +13,22 @@ export default function CheckToken() {
 
   const getTokenInfo = useCallback(async () => {
     try {
-      const response = await kakaoToken.postKakaoCode({ code: code as string });
+      const response = await kakaoTokenApis.postKakaoCode({
+        code: code as string,
+      });
+      // const aa = await memberApis.getMemberMe(
+      //   response.data.data.accessToken,
+      //   response.data.data.refreshToken
+      // );
+      // console.log(aa)
       if (response) {
         setSessionStorage("access", response.data.data.accessToken);
+        setSessionStorage("nickname", response.data.data.nickname);
+        setSessionStorage(
+          "profileImageUrl",
+          response.data.data.profileImageUrl
+        );
+        setSessionStorage("email", response.data.data.email);
         setCookie("refresh", response.data.data.refreshToken);
         router.push("/");
         return;

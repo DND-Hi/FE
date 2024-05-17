@@ -4,10 +4,9 @@ import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 import Footer from "@/components/Footer";
-import Map_detailOverlay from "@/components/Map/Map_detailOverlay";
+import Map_modal from "@/components/Map/Map_modal";
 import Map_ongoing from "@/components/Map/Map_ongoing";
 import useKeywordStore from "@/store/keywordStore";
-import Map_modal from "@/components/Map/Map_modal";
 import { motion } from "framer-motion";
 
 const Home = () => {
