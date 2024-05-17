@@ -4,6 +4,7 @@ import { IconMyPage } from "@/icons/Icon_myPage";
 import { IconSettings } from "@/icons/Icon_settings";
 import useMenuStore, { Menu } from "@/store/menuStore";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 // 선택되면 text-primary: #2DD197
 // 선택안되면 text-darkGray: #848A8A
@@ -19,6 +20,15 @@ export default function Footer() {
     setCurrentMenu(menu);
     route.push(`/${menu === "home" ? "" : menu}`);
   };
+
+  useEffect(() => {
+    const currentPath = route.pathname;
+    if (currentPath === "/") {
+      setCurrentMenu("home");
+    } else {
+      setCurrentMenu(currentPath.slice(1) as Menu);
+    }
+  }, []);
 
   return (
     <div className="mx-[30px] h-[60px] flex relative">
