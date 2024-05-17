@@ -51,7 +51,7 @@ export default {
 
     return await axios.post(settings.baseUrl + url, data, {
       headers: {
-        authorization: accessToken,
+        authorization: `Bearer ${accessToken}`,
         refreshToken,
       },
     });
@@ -63,7 +63,7 @@ export default {
 
     return await axios.put(settings.baseUrl + url, data, {
       headers: {
-        authorization: accessToken,
+        authorization: `Bearer ${accessToken}`,
         refreshToken,
       },
     });
@@ -74,7 +74,7 @@ export default {
     const refreshToken = tokenService.getRefreshToken();
     return await axios.delete(settings.baseUrl + url, {
       headers: {
-        authorization: accessToken,
+        authorization: `Bearer ${accessToken}`,
         refreshToken,
       },
     });
