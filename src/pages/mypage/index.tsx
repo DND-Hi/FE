@@ -1,15 +1,37 @@
+import { memberApis } from "@/apis/member";
 import Footer from "@/components/Footer";
 import List_myEvent from "@/components/mypage/List_myEvent";
 import List_otherEvent from "@/components/mypage/List_otherEvent";
 import Icon_search from "@/icons/Icon_search";
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
+import { UserType } from "../../../types/user.type";
 
 const Mypage = () => {
   const [isMyEvent, setIsMyEvent] = useState<boolean>(true);
+
+  const router = useRouter();
+
+  const [userData, setUserData] = useState<UserType>();
   const toggleNavbar = () => {
     setIsMyEvent(!isMyEvent);
   };
 
+  const getUser = useCallback(async () => {
+    try {
+      const response = await memberApis.getMemberMe();
+      setUserData(response.data.data);
+    } catch (error) {
+      console.log(error);
+      router.replace("/login");
+    }
+  }, []);
+
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
+
+  if (!userData) return <></>;
   return (
     <main className="w-full h-screen bg-[#F7F8F7] relative">
       <header className="w-full flex justify-between h-[44px] items-center px-[16px]">
