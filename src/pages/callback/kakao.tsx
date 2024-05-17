@@ -1,4 +1,4 @@
-import { kakaoToken } from '@/apis/kakaoToken';
+import { kakaoToken } from "@/apis/kakaoToken";
 import { useCookies } from "@/hooks/useCookies";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { useRouter } from "next/router";
@@ -12,17 +12,16 @@ export default function CheckToken() {
   const { setCookie } = useCookies();
 
   const getTokenInfo = useCallback(async () => {
-    const test = await kakaoToken.getKaKaoToken();
-    console.log("test", test);
-    // 최초 로그인이 아닐때 : 액세스토큰
-    if (test) {
-      // setSessionStorage("access", test.authorization);
-      // setCookie("refresh", headers.refreshtoken);
-      // setSessionStorage("nickname", data.nickname[0]);
-      // setSessionStorage("email", data.userRole[0]);
-      // setSessionStorage("profileImage", data.userRole[0]);
-      // router.push("/main");
-      return;
+    try {
+      const response = await kakaoToken.postKakaoCode({ code: code as string });
+      if (response) {
+        setSessionStorage("access", response.data.accessToken);
+        setCookie("refresh", response.data.refreshToken);
+        router.push("/");
+        return;
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [code, setSessionStorage, setCookie, router]);
 

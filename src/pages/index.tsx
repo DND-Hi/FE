@@ -8,6 +8,7 @@ import Map_detailOverlay from "@/components/Map/Map_detailOverlay";
 import Map_ongoing from "@/components/Map/Map_ongoing";
 import useKeywordStore from "@/store/keywordStore";
 import Map_modal from "@/components/Map/Map_modal";
+import { motion } from "framer-motion";
 
 const Home = () => {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -65,7 +66,7 @@ const Home = () => {
     }
   }, []);
   return (
-    <div className="w-full h-full flex justify-center items-center relative">
+    <motion.div className="w-full h-full flex justify-center items-center relative">
       <div className="w-full px-[16px] absolute top-[44px] left-0 z-[10] flex flex-col gap-[16px]">
         <input
           ref={inputRef}
@@ -114,7 +115,7 @@ const Home = () => {
       <div className="w-full absolute bottom-0 left-0 mb-[30px] z-[30]">
         <Footer />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
