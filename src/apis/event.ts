@@ -13,4 +13,19 @@ export const eventApis = {
     cost: number;
     imageUrl: string;
   }) => api.postWithAuth("event", param),
+
+  getEvents: async (param: {
+    longitude: number;
+    latitude: number;
+    distance: number;
+  }) => api.get("event", param),
+
+  getEventById: async (
+    id: number,
+    param: {
+      longitude: number;
+      latitude: number;
+      distance: number;
+    }
+  ) => api.get(`event/${id}`, param),
 };

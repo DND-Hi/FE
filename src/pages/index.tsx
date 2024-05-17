@@ -3,6 +3,7 @@ import { TKeyword } from "@/store/keywordStore";
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
+import { eventApis } from "@/apis/event";
 import Footer from "@/components/Footer";
 import Map_modal from "@/components/Map/Map_modal";
 import Map_ongoing from "@/components/Map/Map_ongoing";
@@ -13,6 +14,8 @@ const Home = () => {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
   const { currentKeyword, setCurrentKeyword } = useKeywordStore();
+
+  const [data, setData] = useState<any>();
 
   const [state, setState] = useState<{
     center: { lat: number; lng: number };
@@ -33,7 +36,23 @@ const Home = () => {
     { id: "small", name: "소소한 축제 🎈" },
   ];
 
+  const getEvents = async () => {
+    try {
+      const { data } = await eventApis.getEvents({
+        latitude: 0,
+        longitude: 0,
+        distance: 60000000,
+      });
+
+      setData(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
+    getEvents();
+
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(
@@ -64,6 +83,7 @@ const Home = () => {
       }));
     }
   }, []);
+
   return (
     <motion.div className="w-full h-full flex justify-center items-center relative">
       <div className="w-full px-[16px] absolute top-[44px] left-0 z-[10] flex flex-col gap-[16px]">
@@ -88,6 +108,20 @@ const Home = () => {
         style={{ width: "100%", height: "100vh" }}
         level={6}
       >
+        {data?.map((item: any, index: number) => (
+          <MapMarker
+            key={`${item.title}-${item.latitude}-${item.id}-${index}`}
+            position={{ lat: item.latitude, lng: item.longitude }} // 마커를 표시할 위치
+            image={{
+              src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
+              size: {
+                width: 24,
+                height: 35,
+              }, // 마커이미지의 크기입니다
+            }}
+            title={item.title} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          />
+        ))}
         {/* <MarkerClusterer averageCenter={true} minLevel={10}>
           <MapMarker
             position={state.center}
