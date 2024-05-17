@@ -19,10 +19,11 @@ const Map_keyword: FC<Props> = ({
 }) => {
   return (
     <button
-      className={`px-[20px] py-[8px] rounded-[30px] ${
-        isActive ? "bg-primary-40" : "bg-primary-10"
+      className={`px-[20px] py-[8px] rounded-[30px] text-[14px] max-h-[32px] ${
+        isActive ? "bg-primary text-white" : "bg-white text-darkGray"
       } ${className}`}
       type="button"
+      onClick={onClick}
       {...props}
     >
       {text}

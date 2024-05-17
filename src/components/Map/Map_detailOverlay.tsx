@@ -15,9 +15,9 @@ const Map_detailOverlay = () => {
           대한 설명이 들어갑니다. 축제에 대한 설명이 들어갑니다. 축제에 대한
           설명이 들어갑니다. 축제에 대한 설명이 들어갑니다.
         </p>
-        <div className="w-min flex items-center gap-[4px]  px-[8px] py-[4px] bg-primary-30 rounded-[50px] ">
+        <div className="w-min flex items-center gap-[4px]  px-[8px] py-[4px] bg-primary-10 rounded-[50px] ">
           <Icon_calendar />
-          <p className="text-[12px] whitespace-nowrap">
+          <p className="text-[12px] whitespace-nowrap text-primary">
             yyyy.mm.dd - yyyy.mm.dd
           </p>
         </div>

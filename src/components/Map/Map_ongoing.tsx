@@ -6,9 +6,9 @@ interface Props {
 
 const Map_ongoing: FC<Props> = ({ count }) => {
   return (
-    <div className="w-full border-[1px] border-primary-80  flex justify-center">
-      <div className="text-primary-90 font-bold whitespace-nowrap border-[2px] border-primary-70 px-[16px] py-[10px] rounded-full w-min bg-white">
-        <p>{count}개의 이벤트 진행 중</p>
+    <div className="w-full flex justify-center">
+      <div className="text-primary font-bold whitespace-nowrap px-[16px] py-[10px] rounded-full w-min bg-white border-[1px] border-primary  ">
+        <p className="text-[12px]">나만 몰랐던 {count}10가지 축제 👀</p>
       </div>
     </div>
   );
