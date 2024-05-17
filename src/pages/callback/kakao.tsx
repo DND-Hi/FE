@@ -1,9 +1,9 @@
+import { kakaoToken } from '@/apis/kakaoToken';
 import { useCookies } from "@/hooks/useCookies";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
 import { useCallback, useEffect } from "react";
-import { kakaoToken } from "../apis/kakaoToken";
 
 export default function CheckToken() {
   const router = useRouter();
