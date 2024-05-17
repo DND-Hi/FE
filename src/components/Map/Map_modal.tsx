@@ -32,7 +32,7 @@ const Map_modal: FC<Props> = ({}) => {
           <Icon_x />
         </button>
         <div className="w-full h-[220px] min-h-[220px] relative">
-          <Image fill src="/images/image4.png" alt="eventImage" />
+          <Image fill src="/images/image4.png" alt="eventImage" objectFit="contain" />
         </div>
         <div className="w-full h-auto flex flex-col gap-[12px] p-[18px] overflow-auto">
           <p className="text-[16px] font-bold">차 없는 잠수교 뚜벅뚜벅 축제</p>

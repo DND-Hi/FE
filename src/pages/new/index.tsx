@@ -1,10 +1,11 @@
+import Form_firstPage from "@/components/New/Form_firstPage";
 import Icon_arrowLeft from "@/icons/Icon_arrowLeft";
 import Icon_x from "@/icons/Icon_x";
 import { useRouter } from "next/router";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
-interface FestivalFormType {
+export interface FestivalFormType {
   title: string;
   description: string;
   host: string;
@@ -12,9 +13,14 @@ interface FestivalFormType {
   latitude: 0;
   startAt: Date | null;
   finishAt: Date | null;
+  cost: number;
+  imageUrl: string;
+  imageFile: File | null;
+  imagePreview: string | null;
 }
 
 const EventNew = () => {
+  const [isFirstPage, setIsFirstPage] = React.useState(true);
   const router = useRouter();
 
   const formMethods = useForm<FestivalFormType>({
@@ -26,13 +32,17 @@ const EventNew = () => {
       latitude: 0,
       startAt: null,
       finishAt: null,
+      cost: 0,
+      imageUrl: "",
+      imageFile: null,
+      imagePreview: null,
     },
   });
   const { register, setValue } = formMethods;
 
   return (
     <main className="w-full h-full bg-white">
-      <header className="w-full flex justify-between h-[44px] items-center">
+      <header className="w-full flex justify-between h-[44px] items-center px-[16px]">
         <button type="button" onClick={() => router.push("/")}>
           <Icon_arrowLeft />
         </button>
@@ -41,23 +51,20 @@ const EventNew = () => {
       </header>
       <section className="w-full h-full  p-[16px]">
         <div className="flex flex-col items-start">
-          <p className="text-[30px] font-bold">어떤 소소한 축제를 </p>
-          <p className="text-[30px] font-bold">생각 중이신가요?</p>
+          <p className="text-[24px] font-bold">어떤 소소한 축제를 </p>
+          <p className="text-[24px] font-bold">생각 중이신가요? 🎈</p>
         </div>
 
-        <form className="w-full flex justify-center">
-          <div className="w-full flex items-center pt-[30px] max-w[]">
-            <input
-              className="border-b-[1px] border-dark px-[8px] py-[8px]"
-              type="text"
-              placeholder="축제 이름을 입력해주세요"
-              {...register}
-            />
-            <button onClick={() => setValue("title", "")}>
-              <Icon_x />
-            </button>
-          </div>
-        </form>
+        <FormProvider {...formMethods}>
+          <form className="w-full flex flex-col justify-between gap-[16px] py-[30px]">
+            {isFirstPage ? (
+              <Form_firstPage
+                isFirstPage={isFirstPage}
+                onNext={() => setIsFirstPage(false)}
+              />
+            ) : null}
+          </form>
+        </FormProvider>
       </section>
     </main>
   );
