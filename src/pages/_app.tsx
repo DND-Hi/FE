@@ -6,7 +6,9 @@ export default function App({ Component, pageProps }: AppProps) {
   
   return (
     <SessionProvider>
-      <Component {...pageProps} />
+      <div className='max-w-[480px] m-auto'>
+        <Component {...pageProps} />
+      </div>
     </SessionProvider>
   );
 }

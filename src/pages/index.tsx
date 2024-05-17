@@ -1,3 +1,4 @@
+import Footer from '@/components/footer';
 import { Test1 } from "@/components/test1";
 import { Test2 } from "@/components/test2";
 
@@ -16,6 +17,7 @@ export default function Home() {
       <p className="bg-primary text-white">팔레트10</p>
       <Test1 />
       <Test2 />
+      <Footer />
     </div>
   );
 }
