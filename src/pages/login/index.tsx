@@ -1,23 +1,30 @@
-import { signIn, signOut, useSession } from "next-auth/react";
-import Image from 'next/image';
+import { useKaKaoLogin } from "@/hooks/useKaKaoLogin";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 
+// https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code
 export default function Login() {
   const { data: session } = useSession();
-  if (session) {
-    return (
-      <div className="flex flex-col gap-[4px]">
-        <p>Sign in {session.user?.email}</p>
-        <button onClick={() => signOut()}>Sign Out</button>
-      </div>
-    );
-  }
+  const { login } = useKaKaoLogin();
+  // console.log(session?.accessToken)
+  // if (session) {
+  //   return (
+  //     <div className="flex flex-col gap-[4px]">
+  //       <p>Sign in {session.user?.email}</p>
+  //       {/* {session.user?.name} */}
+  //       <button onClick={() => signOut()}>Sign Out</button>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="overflow-hidden">
       <div className="w-[632px] h-[632px] rounded-full bg-primary fixed left-[50%] translate-x-[-50%] bottom-[50vh]" />
       <div className="relative">
         {/* <Image src={"/"} alt="logo" width={160} height={160} /> */}
-        <div className='bg-primary-10 w-[160px] h-[160px] flex items-center justify-center mx-[16px]'>로고 들어올 자리</div>
+        <div className="bg-primary-10 w-[160px] h-[160px] flex items-center justify-center mx-[16px]">
+          로고 들어올 자리
+        </div>
       </div>
       <article className="relative z-[999] text-white flex flex-col gap-[12px] px-[16px]">
         <div className="text-[48px] font-bold flex flex-col gap-[4px]">
@@ -35,7 +42,7 @@ export default function Login() {
         <p className="font-bold text-[16px]">
           빠른 회원가입 후 마이 기능 사용하기
         </p>
-        <div className="relative 2xsm:hidden" onClick={() => signIn()}>
+        <div className="relative 2xsm:hidden" onClick={login}>
           <Image
             src={"/images/kakao_login_medium_narrow.png"}
             alt="kakao_login_narrow"
@@ -43,7 +50,7 @@ export default function Login() {
             height={45}
           />
         </div>
-        <div className="relative hidden 2xsm:flex" onClick={() => signIn()}>
+        <div className="relative hidden 2xsm:flex" onClick={login}>
           <Image
             src={"/images/kakao_login_medium_wide.png"}
             alt="kakao_login_wide"

@@ -1,5 +1,5 @@
 import { IconHome } from "@/icons/Icon_home";
-import { IconMyPage } from "@/icons/Icon_mypage";
+import { IconMyPage } from "@/icons/Icon_myPage";
 import { IconSettings } from "@/icons/Icon_settings";
 
 // 선택되면 text-primary: #2DD197
