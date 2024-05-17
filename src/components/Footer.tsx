@@ -4,12 +4,14 @@ import { IconMyPage } from "@/icons/Icon_myPage";
 import { IconSettings } from "@/icons/Icon_settings";
 import useMenuStore, { Menu } from "@/store/menuStore";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Map_search from "./Map/Map_search";
 
 // 선택되면 text-primary: #2DD197
 // 선택안되면 text-darkGray: #848A8A
 export default function Footer() {
   const { currentMenu, setCurrentMenu } = useMenuStore();
+  const [isOpen, setIsOpen] = useState(false);
   const route = useRouter();
 
   const isCurrentMenu = (menu: string) => {
@@ -76,10 +78,21 @@ export default function Footer() {
           </p>
         </button>
       </div>
-      <div className="absolute end-0 bg-primary w-[60px] h-[60px] flex flex-col gap-[4px] items-center justify-center rounded-full text-white">
+      {isOpen && (
+        <Map_search
+          onConfirm={(v, y) => console.log(v, y)}
+          onClose={() => setIsOpen(false)}
+          isOpen={isOpen}
+        />
+      )}
+      <button
+        type="button"
+        className="absolute end-0 bg-primary w-[60px] h-[60px] flex flex-col gap-[4px] items-center justify-center rounded-full text-white"
+        onClick={() => setIsOpen(true)}
+      >
         <p className="text-[16px]">+</p>
         <p className="text-[10px]">등록하기</p>
-      </div>
+      </button>
     </div>
   );
 }
