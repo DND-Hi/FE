@@ -1,5 +1,6 @@
-import api from './common';
+import api from "./common";
 
 export const kakaoToken = {
-  getKaKaoToken: async () => api.post('auth/kakao', {}),
+  postKakaoCode: async (param: { code: string }) =>
+    api.post("auth/kakao", param),
 };
