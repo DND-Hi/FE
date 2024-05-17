@@ -6,6 +6,9 @@ const nextConfig = {
       {
         hostname: "kr.object.ncloudstorage.com",
       },
+      {
+        hostname: "img1.daumcdn.net",
+      },
     ],
   },
 };
