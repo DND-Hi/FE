@@ -105,7 +105,7 @@ const Home = () => {
       <div className="absolute w-11/12 max-w-[480px] bottom-[120px] left-1/2 translate-x-[-50%] z-[20] flex flex-col gap-[20px]">
         <Map_ongoing count={10} />
 
-        <Map_detailOverlay />
+        {/* <Map_detailOverlay /> */}
       </div>
 
       <div className="w-full absolute bottom-0 left-0 mb-[30px] z-[30]">
