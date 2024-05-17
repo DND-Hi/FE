@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import Map_detailOverlay from "@/components/Map/Map_detailOverlay";
 import Map_ongoing from "@/components/Map/Map_ongoing";
 import useKeywordStore from "@/store/keywordStore";
+import Map_modal from "@/components/Map/Map_modal";
 
 const Home = () => {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -98,6 +99,8 @@ const Home = () => {
             }}
           />
         </MarkerClusterer> */}
+
+        <Map_modal />
 
         {!state.isLoading && <MapMarker position={state.center}></MapMarker>}
       </Map>
