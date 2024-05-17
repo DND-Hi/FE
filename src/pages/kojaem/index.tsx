@@ -1,4 +1,3 @@
-import Icon_calendar from "@/icons/Icon_calendar";
 import Icon_marker from "@/icons/Icon_marker";
 import Image from "next/image";
 
