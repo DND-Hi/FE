@@ -5,6 +5,7 @@ import { IconSettings } from "@/icons/Icon_settings";
 import useMenuStore, { Menu } from "@/store/menuStore";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 // 선택되면 text-primary: #2DD197
 // 선택안되면 text-darkGray: #848A8A
@@ -33,7 +34,13 @@ export default function Footer() {
   return (
     <div className="mx-[30px] h-[60px] flex relative">
       <div className="bg-white rounded-full me-[80px] w-full items-center justify-around flex">
-        <button
+        <motion.button
+          whileHover={{
+            scale: 1.1,
+          }}
+          whileTap={{
+            scale: 0.9,
+          }}
           className="flex items-center justify-center flex-col gap-[4px]"
           type="button"
           onClick={() => handleRoute("home")}
@@ -46,8 +53,14 @@ export default function Footer() {
           >
             홈
           </p>
-        </button>
-        <button
+        </motion.button>
+        <motion.button
+          whileHover={{
+            scale: 1.1,
+          }}
+          whileTap={{
+            scale: 0.9,
+          }}
           className="flex items-center justify-center flex-col gap-[4px]"
           type="button"
           onClick={() => handleRoute("mypage")}
@@ -60,8 +73,14 @@ export default function Footer() {
           >
             마이
           </p>
-        </button>
-        <button
+        </motion.button>
+        <motion.button
+          whileHover={{
+            scale: 1.1,
+          }}
+          whileTap={{
+            scale: 0.9,
+          }}
           className="flex items-center justify-center flex-col gap-[4px]"
           type="button"
           onClick={() => handleRoute("setting")}
@@ -74,7 +93,7 @@ export default function Footer() {
           >
             설정
           </p>
-        </button>
+        </motion.button>
       </div>
       <div className="absolute end-0 bg-primary w-[60px] h-[60px] flex flex-col gap-[4px] items-center justify-center rounded-full text-white">
         <p className="text-[16px]">+</p>

@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 
+import { motion } from "framer-motion";
 interface Props
   extends React.ButtonHTMLAttributes<
     Omit<HTMLButtonElement, "onClick" | "className">
@@ -15,19 +16,23 @@ const Map_keyword: FC<Props> = ({
   isActive = false,
   onClick,
   className,
-  ...props
 }) => {
   return (
-    <button
+    <motion.button
       className={`px-[20px] py-[8px] rounded-[30px] text-[14px] max-h-[32px] ${
         isActive ? "bg-primary text-white" : "bg-white text-darkGray"
       } ${className}`}
       type="button"
       onClick={onClick}
-      {...props}
+      whileHover={{
+        scale: 1.1        
+      }}
+      whileTap={{
+        scale: 0.9
+      }}
     >
       {text}
-    </button>
+    </motion.button>
   );
 };
 
