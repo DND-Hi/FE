@@ -18,6 +18,9 @@ const nextConfig = {
       {
         hostname: "cf.festa.io",
       },
+      {
+        hostname: "tistory1.daumcdn.net",
+      },
     ],
   },
 };
