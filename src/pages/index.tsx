@@ -1,7 +1,7 @@
 import Keyword from "@/components/Map/Map_keyword";
 import { TKeyword } from "@/store/keywordStore";
 import React, { useEffect, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map, MapMarker, MarkerClusterer } from "react-kakao-maps-sdk";
 
 import { eventApis } from "@/apis/event";
 import Footer from "@/components/Footer";
@@ -9,11 +9,16 @@ import Map_modal from "@/components/Map/Map_modal";
 import Map_ongoing from "@/components/Map/Map_ongoing";
 import useKeywordStore from "@/store/keywordStore";
 import { motion } from "framer-motion";
+import Map_homeOverlay from "@/components/Map/Map_homeOverlay";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 
 const Home = () => {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const { getSessionStorage, setSessionStorage } = useSessionStorage();
 
   const { currentKeyword, setCurrentKeyword } = useKeywordStore();
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [selectedDetail, setSelectedDetail] = useState<any>(null);
 
   const [data, setData] = useState<any>();
 
@@ -23,8 +28,8 @@ const Home = () => {
     isLoading: boolean;
   }>({
     center: {
-      lat: 33.450701,
-      lng: 126.570667,
+      lat: Number(getSessionStorage("latitude")) ?? 37.506502,
+      lng: Number(getSessionStorage("longitude")) ?? 127.053617,
     },
     errMsg: null,
     isLoading: true,
@@ -56,8 +61,10 @@ const Home = () => {
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(
-        position => {
-          setState(prev => ({
+        (position) => {
+          setSessionStorage("latitude", String(position.coords.latitude));
+          setSessionStorage("longitude", String(position.coords.longitude));
+          setState((prev) => ({
             ...prev,
             center: {
               lat: position.coords.latitude, // 위도
@@ -66,8 +73,8 @@ const Home = () => {
             isLoading: false,
           }));
         },
-        err => {
-          setState(prev => ({
+        (err) => {
+          setState((prev) => ({
             ...prev,
             errMsg: err.message,
             isLoading: false,
@@ -76,13 +83,15 @@ const Home = () => {
       );
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         errMsg: "geolocation을 사용할수 없어요..",
         isLoading: false,
       }));
     }
   }, []);
+
+  console.log(data);
 
   return (
     <motion.div className="w-full h-full flex justify-center items-center relative">
@@ -93,7 +102,7 @@ const Home = () => {
           placeholder="참여하고싶은 축제를 키워드로 검색해보세요."
         />
         <div className="w-auto flex gap-[12px]">
-          {keywords.map(keyword => (
+          {keywords.map((keyword) => (
             <Keyword
               key={keyword.id}
               text={keyword.name}
@@ -108,42 +117,45 @@ const Home = () => {
         style={{ width: "100%", height: "100vh" }}
         level={6}
       >
-        {data?.map((item: any, index: number) => (
-          <MapMarker
-            key={`${item.title}-${item.latitude}-${item.id}-${index}`}
-            position={{ lat: item.latitude, lng: item.longitude }} // 마커를 표시할 위치
-            image={{
-              src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
-              size: {
-                width: 24,
-                height: 35,
-              }, // 마커이미지의 크기입니다
-            }}
-            title={item.title} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-          />
-        ))}
-        {/* <MarkerClusterer averageCenter={true} minLevel={10}>
-          <MapMarker
-            position={state.center}
-            clickable={true} // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-            onClick={() => {}}
-            image={{
-              src: "https://cdn-icons-png.flaticon.com/512/1181/1181732.png",
-              size: { width: 24, height: 24 },
-            }}
-          />
-        </MarkerClusterer> */}
+        <MarkerClusterer averageCenter={true} minLevel={10}>
+          {data?.map((item: any, index: number) => {
+            console.log(item);
+            return (
+              <MapMarker
+                key={`${item.title}-${item.latitude}-${item.id}-${index}`}
+                position={{ lat: item.longitude, lng: item.latitude }} // 마커를 표시할 위치
+                title={item.title} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                image={{
+                  src: "/images/markerImage.png",
+                  size: { width: 48, height: 66 },
+                }}
+                onClick={() => setSelectedEvent(item)}
+              />
+            );
+          })}
+        </MarkerClusterer>
 
-        <Map_modal />
-
-        {!state.isLoading && <MapMarker position={state.center}></MapMarker>}
+        {/* {!state.isLoading && <MapMarker position={state.center}></MapMarker>} */}
       </Map>
 
       <div className="absolute w-11/12 max-w-[480px] bottom-[120px] left-1/2 translate-x-[-50%] z-[20] flex flex-col gap-[20px]">
-        <Map_ongoing count={10} />
+        {!!data && <Map_ongoing count={data?.length} />}
 
-        {/* <Map_detailOverlay /> */}
+        {selectedEvent && (
+          <Map_homeOverlay
+            param={selectedEvent}
+            onClick={() => {
+              setSelectedEvent(null);
+              setSelectedDetail(selectedEvent);
+            }}
+          />
+        )}
       </div>
+
+      <Map_modal
+        param={selectedDetail}
+        onClose={() => setSelectedDetail(null)}
+      />
 
       <div className="w-full absolute bottom-0 left-0 mb-[30px] z-[30]">
         <Footer />

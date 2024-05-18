@@ -53,7 +53,9 @@ const EventNew = () => {
       })
       .then((res) => res.data);
 
-    const imageUrl = res.data.url;
+    const imageUrl = res.data.path;
+
+    console.log(imageUrl, "imageUrl");
 
     const result = await eventApis
       .postEvent({
