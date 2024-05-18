@@ -55,8 +55,6 @@ const EventNew = () => {
 
     const imageUrl = res.data.path;
 
-    console.log(imageUrl, "imageUrl");
-
     const result = await eventApis
       .postEvent({
         cost: data.cost,
