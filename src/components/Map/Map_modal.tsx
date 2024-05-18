@@ -41,12 +41,13 @@ const Map_modal = ({ param, onClose }: { param: any; onClose: () => void }) => {
         >
           <Icon_x />
         </button>
-        <div className="w-full h-[220px] min-h-[220px] relative">
+        <div className="w-full h-[220px] min-h-[220px] relative rounded-[16px]">
           <Image
             fill
             src={param?.imageUrl ?? "/images/잠수교.png"}
             alt="eventImage"
             objectFit="contain"
+            className="rounded-t-[16px]"
           />
         </div>
         <div className="w-full h-auto flex flex-col gap-[12px] p-[18px] overflow-auto">

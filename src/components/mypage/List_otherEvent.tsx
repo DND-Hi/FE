@@ -1,7 +1,7 @@
 import { bookmarkAPIs } from "@/apis/bookmark";
 import { useCallback, useEffect, useState } from "react";
 import Map_detailOverlay from "../Map/Map_detailOverlay";
-import Icon_heart from '@/icons/Icon_heart';
+import Icon_heart from "@/icons/Icon_heart";
 
 const List_otherEvent = () => {
   const [data, setData] = useState<any>();
@@ -28,8 +28,8 @@ const List_otherEvent = () => {
           key={`${event.bookmarkId}-${index}`}
           className="flex w-full overflow-auto gap-[16px] scrollbar-hide relative"
         >
-          <div className='bg-white/50 rounded-full border-[2px] border-solid border-white w-[30px] h-[30px] absolute z-[999] left-[8px] top-[8px] flex items-center justify-center'>
-            <Icon_heart isActive/>
+          <div className="bg-white/50 rounded-full border-[2px] border-solid border-white w-[30px] h-[30px] absolute z-[999] left-[8px] top-[8px] flex items-center justify-center">
+            <Icon_heart isActive />
           </div>
           <Map_detailOverlay
             title={event.title}

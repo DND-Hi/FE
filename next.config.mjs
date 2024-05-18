@@ -15,6 +15,9 @@ const nextConfig = {
       {
         hostname: "img.freepik.com",
       },
+      {
+        hostname: "cf.festa.io",
+      },
     ],
   },
 };
