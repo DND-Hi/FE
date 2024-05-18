@@ -19,8 +19,8 @@ const Mypage = () => {
 
   const getUser = useCallback(async () => {
     try {
-      const response = await memberApis.getMemberMe();
-      setUserData(response.data.data);
+      const { data } = await memberApis.getMemberMe();
+      setUserData(data.data);
     } catch (error) {
       console.log(error);
       router.replace("/login");

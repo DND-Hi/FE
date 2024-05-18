@@ -28,4 +28,6 @@ export const eventApis = {
       distance: number;
     }
   ) => api.get(`event/${id}`, param),
+
+  getMyEvent: async () => api.getWithAuth(`event/my`),
 };

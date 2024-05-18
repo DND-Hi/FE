@@ -1,58 +1,46 @@
-import React, { useEffect, useState } from "react";
+import { bookmarkAPIs } from "@/apis/bookmark";
+import { useCallback, useEffect, useState } from "react";
 import Map_detailOverlay from "../Map/Map_detailOverlay";
 
-const events = [
-  {
-    id: 1,
-    imageURL: "/images/잠수교.png",
-    title: "차 없는 잠수교 뚜벅뚜벅 축제",
-    description:
-      "2024 차 없는 잠수교 뚜벅뚜벅 축제의 오감으로 만나는 힐링 놀이터로 놀러와 힐링을 동시에 즐겨보세요.",
-    startAt: new Date("2022-01-01T00:00:00"),
-    finishAt: new Date("2022-01-01T01:00:00"),
-  },
-  {
-    id: 2,
-    imageURL: "/images/잠수교.png",
-    title: "차 없는 잠수교 뚜벅뚜벅 축제",
-    description:
-      "2024 차 없는 잠수교 뚜벅뚜벅 축제의 오감으로 만나는 힐링 놀이터로 놀러와 힐링을 동시에 즐겨보세요.",
-    startAt: new Date("2022-01-02T00:00:00"),
-    finishAt: new Date("2022-01-02T01:00:00"),
-  },
-  {
-    id: 3,
-    imageURL: "/images/잠수교.png",
-    title: "차 없는 잠수교 뚜벅뚜벅 축제",
-    description:
-      "2024 차 없는 잠수교 뚜벅뚜벅 축제의 오감으로 만나는 힐링 놀이터로 놀러와 힐링을 동시에 즐겨보세요.",
-    startAt: new Date("2022-01-03T00:00:00"),
-    finishAt: new Date("2022-01-03T01:00:00"),
-  },
-  {
-    id: 4,
-    imageURL: "/images/잠수교.png",
-    title: "차 없는 잠수교 뚜벅뚜벅 축제",
-    description:
-      "2024 차 없는 잠수교 뚜벅뚜벅 축제의 오감으로 만나는 힐링 놀이터로 놀러와 힐링을 동시에 즐겨보세요.",
-    startAt: new Date("2022-01-04T00:00:00"),
-    finishAt: new Date("2022-01-04T01:00:00"),
-  },
-  // Add more events as needed
-];
-
 const List_otherEvent = () => {
+  const [data, setData] = useState<any>();
+
+  const getBookmarks = useCallback(async () => {
+    const { data } = await bookmarkAPIs.getBookmarks();
+    setData(data.data);
+  }, []);
+
+  useEffect(() => {
+    getBookmarks();
+  }, [getBookmarks]);
+
+  const deleteBookmark = async (bookmarkId: number) => {
+    await bookmarkAPIs.deleteBookmark(bookmarkId);
+    const { data } = await bookmarkAPIs.getBookmarks();
+    setData(data.data);
+  };
+
   return (
-    <div className="flex flex-col gap-[16px]">
-      {events.map((event) => (
-        <Map_detailOverlay
-          key={event.id}
-          title={event.title}
-          description={event.description}
-          startAt={event.startAt}
-          finishAt={event.finishAt}
-          imageURL={event.imageURL}
-        />
+    <div className="flex flex-col gap-[16px] w-full">
+      {data?.map((event: any, index: number) => (
+        <div
+          key={`${event.bookmarkId}-${index}`}
+          className="flex w-full overflow-auto gap-[16px] scrollbar-hide"
+        >
+          <Map_detailOverlay
+            title={event.title}
+            description={event.description}
+            startAt={event.startAt}
+            finishAt={event.finishAt}
+            imageURL={event.imageURL}
+          />
+          <button
+            className="bg-[#FF5757] rounded-full text-white flex items-center justify-center w-[50px] h-[50px] flex-shrink-0 self-center"
+            onClick={() => deleteBookmark(event.bookmarkId)}
+          >
+            X
+          </button>
+        </div>
       ))}
     </div>
   );

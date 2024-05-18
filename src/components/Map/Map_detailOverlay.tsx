@@ -22,7 +22,7 @@ const Map_detailOverlay: FC<Props> = ({
   const formattedFinishAt = dayjs(finishAt).format("YYYY.MM.DD");
 
   return (
-    <div className="w-full h-[132px] max-w-[480px] flex rounded-[16px] ">
+    <div className="w-full h-[132px] max-w-[480px] flex rounded-[16px] shrink-0">
       <div className="min-w-[132px] min-h-[132px]">
         <Image
           width={132}
