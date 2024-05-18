@@ -1,13 +1,10 @@
-import useModalStore from "@/store/modalStore";
-import React, { FC, useState } from "react";
-import Image from "next/image";
+import { bookmarkAPIs } from "@/apis/bookmark";
 import Icon_calendar from "@/icons/Icon_calendar";
-import Icon_marker from "@/icons/Icon_marker";
-import KeywordChip from "../common/KeywordChip";
-import RedirectButton from "../common/RedirectButton";
 import Icon_heart from "@/icons/Icon_heart";
 import Icon_x from "@/icons/Icon_x";
 import dayjs from "dayjs";
+import Image from "next/image";
+import RedirectButton from "../common/RedirectButton";
 
 const Map_modal = ({ param, onClose }: { param: any; onClose: () => void }) => {
   const formattedStartAt =
@@ -19,6 +16,15 @@ const Map_modal = ({ param, onClose }: { param: any; onClose: () => void }) => {
 
   if (!param) return null;
 
+  const clickBookmark = async (id: number) => {
+    try {
+      const response = await bookmarkAPIs.postBookmarks(id);
+      console.log(response)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-[999]"
@@ -26,7 +32,7 @@ const Map_modal = ({ param, onClose }: { param: any; onClose: () => void }) => {
     >
       <div
         className="w-full max-w-[480px] h-[650px] bg-white mx-[16px] rounded-[16px] flex flex-col justify-between pb-[16px] relative"
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
       >
         <button
           className="absolute top-0 right-0 z-[100]"
@@ -80,7 +86,10 @@ const Map_modal = ({ param, onClose }: { param: any; onClose: () => void }) => {
               <p className="text-[16px] font-bold">{param.host ?? "익명"}</p>
             </div>
           </div>
-          <button className="w-[32px] h-[32px] border-[1px] border-darkGray rounded-full flex justify-center items-center">
+          <button
+            className="w-[32px] h-[32px] border-[1px] border-darkGray rounded-full flex justify-center items-center"
+            onClick={() => clickBookmark(param.id)}
+          >
             <Icon_heart />
           </button>
         </div>
