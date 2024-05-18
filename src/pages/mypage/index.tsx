@@ -77,7 +77,7 @@ const Mypage = () => {
           </div>
         )}
       </section>
-      <div className="w-full absolute bottom-0 left-0 mb-[30px] z-[30]">
+      <div className="w-full fixed bottom-0 left-0 mb-[30px] z-[30]">
         <Footer />
       </div>
     </main>

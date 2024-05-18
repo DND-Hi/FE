@@ -10,7 +10,7 @@ const Setting = () => {
   const [userData, setUserData] = useState<UserType>();
   const router = useRouter();
   const { logout } = useKaKaoLogin();
-  
+
   const getUser = useCallback(async () => {
     try {
       const response = await memberApis.getMemberMe();
@@ -51,7 +51,7 @@ const Setting = () => {
             로그아웃
           </button>
         </article>
-        <div className="w-full absolute bottom-0 left-0 mb-[30px] z-[30]">
+        <div className="w-full fixed bottom-0 left-0 mb-[30px] z-[30]">
           <Footer />
         </div>
       </div>
