@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const colors = require("tailwindcss/colors");
 
 const config: Config = {
   darkMode: "class",
@@ -25,9 +26,10 @@ const config: Config = {
       ["4xl"]: "2440px",
     },
     colors: {
+      ...colors,
       primary: {
-        DEFAULT: "#FF8D00",
-        10: "#FFF0D9",
+        DEFAULT: "#2DD197",
+        10: "#D5F9EC",
         20: "#FFE7C4",
         30: "#FFE0B5",
         40: "#FED9A6",
@@ -63,6 +65,7 @@ const config: Config = {
         foreground: "#010816",
       },
       gray: "#ADADAD",
+      darkGray: "#848A8A",
       black: "#000000",
       white: "#FFFFFF",
       border: "#e2e8f0",
@@ -100,7 +103,10 @@ const config: Config = {
     },
   },
   extend: {},
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/line-clamp"),
+    require("tailwind-scrollbar-hide"),
+  ],
 } satisfies Config;
 
 export default config;
