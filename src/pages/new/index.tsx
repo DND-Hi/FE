@@ -7,6 +7,7 @@ import Icon_arrowLeft from "@/icons/Icon_arrowLeft";
 import { useRouter } from "next/router";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { motion } from "framer-motion";
 
 export interface FestivalFormType {
   title: string;
@@ -51,7 +52,7 @@ const EventNew = () => {
         file: data.imageFile!,
         type: "event",
       })
-      .then((res) => res.data);
+      .then(res => res.data);
 
     const imageUrl = res.data.path;
 
@@ -68,13 +69,26 @@ const EventNew = () => {
         finishAt: new Date(data.startAt),
         imageUrl,
       })
-      .then((res) => res.data);
+      .then(res => res.data);
 
     router.replace("/");
   };
 
   return (
-    <main className="w-full h-full bg-white">
+    <motion.main
+      className="w-full h-full bg-white"
+      initial={{
+        y: 30,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.5,
+      }}
+    >
       <header className="w-full flex justify-between h-[44px] items-center px-[16px]">
         <button type="button" onClick={() => router.push("/")}>
           <Icon_arrowLeft />
@@ -112,7 +126,7 @@ const EventNew = () => {
           </form>
         </FormProvider>
       </section>
-    </main>
+    </motion.main>
   );
 };
 

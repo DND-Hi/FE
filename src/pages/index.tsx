@@ -5,12 +5,12 @@ import { Map, MapMarker, MarkerClusterer } from "react-kakao-maps-sdk";
 
 import { eventApis } from "@/apis/event";
 import Footer from "@/components/Footer";
+import Map_homeOverlay from "@/components/Map/Map_homeOverlay";
 import Map_modal from "@/components/Map/Map_modal";
 import Map_ongoing from "@/components/Map/Map_ongoing";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import useKeywordStore from "@/store/keywordStore";
 import { motion } from "framer-motion";
-import Map_homeOverlay from "@/components/Map/Map_homeOverlay";
-import { useSessionStorage } from "@/hooks/useSessionStorage";
 
 const Home = () => {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -61,10 +61,10 @@ const Home = () => {
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        position => {
           setSessionStorage("latitude", String(position.coords.latitude));
           setSessionStorage("longitude", String(position.coords.longitude));
-          setState((prev) => ({
+          setState(prev => ({
             ...prev,
             center: {
               lat: position.coords.latitude, // 위도
@@ -73,8 +73,8 @@ const Home = () => {
             isLoading: false,
           }));
         },
-        (err) => {
-          setState((prev) => ({
+        err => {
+          setState(prev => ({
             ...prev,
             errMsg: err.message,
             isLoading: false,
@@ -83,7 +83,7 @@ const Home = () => {
       );
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-      setState((prev) => ({
+      setState(prev => ({
         ...prev,
         errMsg: "geolocation을 사용할수 없어요..",
         isLoading: false,
@@ -91,10 +91,21 @@ const Home = () => {
     }
   }, []);
 
-  console.log(data);
-
   return (
-    <motion.div className="w-full h-full flex justify-center items-center relative">
+    <motion.div
+      className="w-full h-full flex justify-center items-center relative"
+      initial={{
+        y: 30,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.5,
+      }}
+    >
       <div className="w-full px-[16px] absolute top-[44px] left-0 z-[10] flex flex-col gap-[16px]">
         <input
           ref={inputRef}
@@ -102,7 +113,7 @@ const Home = () => {
           placeholder="참여하고싶은 축제를 키워드로 검색해보세요."
         />
         <div className="w-auto flex gap-[12px]">
-          {keywords.map((keyword) => (
+          {keywords.map(keyword => (
             <Keyword
               key={keyword.id}
               text={keyword.name}

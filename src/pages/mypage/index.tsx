@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import List_myEvent from "@/components/mypage/List_myEvent";
 import List_otherEvent from "@/components/mypage/List_otherEvent";
 import Icon_search from "@/icons/Icon_search";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { UserType } from "../../../types/user.type";
@@ -33,7 +34,20 @@ const Mypage = () => {
 
   if (!userData) return <></>;
   return (
-    <main className="w-full h-screen bg-[#F7F8F7] relative">
+    <motion.main
+      className="w-full h-screen bg-[#F7F8F7] relative"
+      initial={{
+        y: 30,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.5,
+      }}
+    >
       <header className="w-full flex justify-between h-[44px] items-center px-[16px]">
         <p className="text-[18px] ">마이</p>
         <Icon_search />
@@ -80,7 +94,7 @@ const Mypage = () => {
       <div className="w-full fixed bottom-0 left-0 mb-[30px] z-[30]">
         <Footer />
       </div>
-    </main>
+    </motion.main>
   );
 };
 

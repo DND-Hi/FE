@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { UserType } from "../../../types/user.type";
+import { motion } from "framer-motion";
 
 const Setting = () => {
   const [userData, setUserData] = useState<UserType>();
@@ -28,7 +29,20 @@ const Setting = () => {
   if (!userData) return <></>;
 
   return (
-    <main className="w-full h-screen bg-[#F7F8F7] relative">
+    <motion.main
+      className="w-full h-screen bg-[#F7F8F7] relative"
+      initial={{
+        y: 30,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.5,
+      }}
+    >
       <div className="flex flex-col gap-[30px] mx-[16px]">
         <header className="w-full flex justify-between h-[44px] items-center">
           <p className="text-[18px]">설정</p>
@@ -55,7 +69,7 @@ const Setting = () => {
           <Footer />
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 };
 

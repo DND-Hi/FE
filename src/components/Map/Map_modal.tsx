@@ -3,6 +3,7 @@ import Icon_calendar from "@/icons/Icon_calendar";
 import Icon_heart from "@/icons/Icon_heart";
 import Icon_x from "@/icons/Icon_x";
 import dayjs from "dayjs";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import RedirectButton from "../common/RedirectButton";
 
@@ -19,16 +20,25 @@ const Map_modal = ({ param, onClose }: { param: any; onClose: () => void }) => {
   const clickBookmark = async (id: number) => {
     try {
       const response = await bookmarkAPIs.postBookmarks(id);
-      console.log(response)
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div
+    <motion.div
       className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-[999]"
       onClick={onClose}
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.5,
+      }}
     >
       <div
         className="w-full max-w-[480px] h-[650px] bg-white mx-[16px] rounded-[16px] flex flex-col justify-between pb-[16px] relative"
@@ -95,7 +105,7 @@ const Map_modal = ({ param, onClose }: { param: any; onClose: () => void }) => {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
