@@ -1,21 +1,20 @@
-import { useKaKaoLogin } from "@/hooks/useKaKaoLogin";
-import { useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 
 // https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code
 export default function Login() {
   const { data: session } = useSession();
-  const { login } = useKaKaoLogin();
+  // const { login } = useKaKaoLogin();
   // console.log(session?.accessToken)
-  // if (session) {
-  //   return (
-  //     <div className="flex flex-col gap-[4px]">
-  //       <p>Sign in {session.user?.email}</p>
-  //       {/* {session.user?.name} */}
-  //       <button onClick={() => signOut()}>Sign Out</button>
-  //     </div>
-  //   );
-  // }
+  if (session) {
+    return (
+      <div className="flex flex-col gap-[4px]">
+        <p>Sign in {session.user?.email}</p>
+        {/* {session.user?.name} */}
+        <button onClick={() => signOut()}>Sign Out</button>
+      </div>
+    );
+  }
 
   return (
     <div className="overflow-hidden w-full h-full">
@@ -23,7 +22,7 @@ export default function Login() {
 
       <div
         className="absolute bottom-[40px] left-1/2 translate-x-[-50%] scale-125 flex flex-col  items-center gap-[8px]"
-        onClick={login}
+        onClick={() => signIn()}
       >
         <p className="text-[10px]">로그인하고 가고 싶은 축제 모아보기!</p>
         <Image

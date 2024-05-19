@@ -10,7 +10,9 @@ import Map_modal from "@/components/Map/Map_modal";
 import Map_ongoing from "@/components/Map/Map_ongoing";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
 import useKeywordStore from "@/store/keywordStore";
+import axios from "axios";
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
 
 const Home = () => {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -21,6 +23,8 @@ const Home = () => {
   const [selectedDetail, setSelectedDetail] = useState<any>(null);
 
   const [data, setData] = useState<any>();
+
+  const { data: session } = useSession();
 
   const [state, setState] = useState<{
     center: { lat: number; lng: number };
@@ -90,6 +94,43 @@ const Home = () => {
       }));
     }
   }, []);
+
+  const getUserInfo = async () => {
+    // kakao 서버에 한번 다시 갔다오는 로직
+    // 서버측에 세션을 던져주기에 무리가 있다면 토큰을 넘겨주고 서버측에서 아래 로직을 실행하기
+    // 토큰은 next-auth.session-token 값이 아님 (next-auth.session-token 보낼 시 too long for access token 에러.)
+    // 서버에 던져줘야하는 토큰은 callbacks 처리를 한 session accessToken 값
+    // https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#req-user-info
+
+    // 전체적인 Flow
+    // 1번 Flow
+    // 1. next-auth 로그인
+    // 2. session 에 필요한 정보 받음 (필요할지는 모르지만, 재요청이 필요할경우 아래 user/me 등 카카오서버에 다시 접근해서 받아오기)
+    // 3. 서버에 로그인에 필요한 값(email, 우리 서비스에 필요한 정보 등) 보내주면서 회원가입요청
+    // 4. 회원가입 및 우리 서비스 access, refresh 토큰으로 사용
+    // 2번 Flow
+    // 1. next-auth 로그인
+    // 2. 카카오에 받은 액세스토큰 서버에 전달 + 우리 서비스에서 회원가입에 필요한 정보 전달
+    // 3. 서버측에서 필요한 정보를 카카오에 요청(user/me 등)
+    // 4. 회원가입
+
+    // 개인적으로는 생각에 1번 방법이 더 괜찮다고 생각함.
+    try {
+      if (session) {
+        const response = await axios.get("https://kapi.kakao.com/v2/user/me", {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`,
+          },
+        });
+        console.log("", response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUserInfo();
+  }, [session]);
 
   return (
     <motion.div
